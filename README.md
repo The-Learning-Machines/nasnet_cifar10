@@ -1,5 +1,7 @@
 # NasNet 2018
 
+Most of the code in this repo is from https://github.com/MarSaKi/nasnet
+
 This code is the reimplementation of "Learning Transferable Architectures for Scalable Image Recognition",
 including the training process of controller. This code contains three algorithms to search model, Random Search, 
 Policy Gradient and PPO. 
