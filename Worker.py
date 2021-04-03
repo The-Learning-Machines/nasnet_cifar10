@@ -6,6 +6,9 @@ from torch.autograd import Variable
 import torchvision
 import torch.backends.cudnn as cudnn
 import numpy as np
+import json
+from weight_hist import benford_r2_model
+from time import time
 
 class Worker(object):
     def __init__(self, actions_p, actions_log_p, actions_index, args, device):
@@ -77,7 +80,20 @@ def get_acc(worker):
                 # break out of training loop
                 break
 
-    worker.acc = self.memory_stack[-1]
+    worker.acc = self.memory_stack[-4]
+
+    # dump val accuracy and MLH
+    mlh = benford_r2_model(model)
+
+    dump_dict = {"Accuracy": worker.acc, "MLH": mlh}
+    
+    filename = int(time())
+    out = open(f"{filename}", "a")
+    json.dump(dump_dict, out)
+    out.close()
+
+
+
 
 def train(model, train_queue, criterion, optimizer, device):
     avg_loss = 0
